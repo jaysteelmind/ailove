@@ -50,3 +50,6 @@ export default {
   verbose: true,
   testTimeout: 10000,
 };
+
+// Note: Integration tests should be run with DATABASE_URL set to test database
+// Example: DATABASE_URL="postgresql://..." npm run test:integration
