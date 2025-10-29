@@ -31,6 +31,7 @@
     "dotenv": "^16.4.5",
     "ioredis": "^5.8.2",
     "jsonwebtoken": "^9.0.2",
+    "openai": "^6.7.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -38,7 +39,7 @@
     "@types/ioredis": "^4.28.10",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.14.0",
+    "@types/node": "^20.19.24",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",
