@@ -192,7 +192,7 @@ export class CacheRepository {
   async batchCacheEmbeddings(embeddings: Map<string, number[]>): Promise<void> {
     const pipeline = this.redis.pipeline();
 
-    for (const [userId, embedding] of embeddings.entries()) {
+    for (const [userId, embedding] of Array.from(embeddings.entries())) {
       const key = `embedding:${userId}`;
       pipeline.setex(key, this.EMBEDDING_TTL, JSON.stringify(embedding));
     }
