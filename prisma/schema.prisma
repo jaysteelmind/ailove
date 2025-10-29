@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String   @map("password_hash")
+  firstName     String   @map("first_name")
+  lastName      String   @map("last_name")
+  dateOfBirth   DateTime @map("date_of_birth")
+  gender        String
+  location      Json     // { latitude, longitude, city, country }
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  profile       UserProfile?
+  traits        UserTrait[]
+  matchesFrom   Match[]      @relation("UserMatches")
+  matchesTo     Match[]      @relation("MatchedUsers")
+  messages      Message[]
+  dates         Date[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  id                String   @id @default(uuid())
+  userId            String   @unique @map("user_id")
+  bio               String?
+  photos            String[]
+  preferences       Json     // Dating preferences
+  knowYouMeterScore Float    @default(0) @map("know_you_meter_score")
+  conversationCount Int      @default(0) @map("conversation_count")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model UserTrait {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  dimension  String   // values, interests, communication, lifestyle, goals
+  trait      String
+  value      Float
+  confidence Float
+  source     String   // conversation, explicit, inferred
+  extractedAt DateTime @default(now()) @map("extracted_at")
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, dimension, trait])
+  @@map("user_traits")
+}
+
+model Match {
+  id              String    @id @default(uuid())
+  userId          String    @map("user_id")
+  matchedUserId   String    @map("matched_user_id")
+  rbsScore        Float     @map("rbs_score")
+  srScore         Float     @map("sr_score")
+  cuScore         Float     @map("cu_score")
+  igScore         Float     @map("ig_score")
+  scScore         Float     @map("sc_score")
+  status          String    @default("pending") // pending, accepted, rejected, expired
+  viewedAt        DateTime? @map("viewed_at")
+  respondedAt     DateTime? @map("responded_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  expiresAt       DateTime  @map("expires_at")
+  
+  user        User @relation("UserMatches", fields: [userId], references: [id], onDelete: Cascade)
+  matchedUser User @relation("MatchedUsers", fields: [matchedUserId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, matchedUserId])
+  @@index([userId, status])
+  @@index([matchedUserId, status])
+  @@map("matches")
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  content    String
+  role       String   // user, assistant
+  extractedTraits Json? @map("extracted_traits")
+  createdAt  DateTime @default(now()) @map("created_at")
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("messages")
+}
+
+model Date {
+  id           String    @id @default(uuid())
+  userId       String    @map("user_id")
+  partnerId    String    @map("partner_id")
+  scheduledAt  DateTime  @map("scheduled_at")
+  location     Json      // { name, address, latitude, longitude }
+  status       String    @default("scheduled") // scheduled, confirmed, completed, cancelled
+  feedbackRating Int?    @map("feedback_rating")
+  feedbackText String?   @map("feedback_text")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@map("dates")
+}
+
+model CausalUpliftModel {
+  id          String   @id @default(uuid())
+  version     String   @unique
+  modelData   Bytes    @map("model_data")
+  accuracy    Float
+  trainedOn   Int      @map("trained_on") // Number of samples
+  deployedAt  DateTime @default(now()) @map("deployed_at")
+  
+  @@map("causal_uplift_models")
+}

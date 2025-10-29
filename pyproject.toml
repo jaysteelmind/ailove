@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "ailove"
+version = "0.1.0"
+description = "AI Dating Platform - Backend Foundation & Core Algorithm"
+authors = ["AI Love Team"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
