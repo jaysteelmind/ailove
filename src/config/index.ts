@@ -56,7 +56,7 @@ export const config = {
   grok: {
     apiKey: validateEnv('GROK_API_KEY'),
     apiUrl: process.env.GROK_API_URL ?? 'https://api.x.ai/v1',
-    model: 'grok-beta',
+    model: 'grok-2-1212',
     timeout: 15000, // 15s
   },
 

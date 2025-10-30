@@ -7,7 +7,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { UserRepository } from '@/lib/services/UserRepository';
+import { UserRepository } from '@/lib/repositories/UserRepository';
 import { authenticate, handleApiError } from '@/lib/utils/middleware';
 import {
   successResponse,
