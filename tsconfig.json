@@ -2,18 +2,32 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "moduleResolution": "bundler",
     "rootDir": "./src",
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"],
-      "@services/*": ["./lib/services/*"],
-      "@repositories/*": ["./lib/repositories/*"],
-      "@utils/*": ["./lib/utils/*"],
-      "@types/*": ["./lib/types/*"],
-      "@config/*": ["./config/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@services/*": [
+        "./lib/services/*"
+      ],
+      "@repositories/*": [
+        "./lib/repositories/*"
+      ],
+      "@utils/*": [
+        "./lib/utils/*"
+      ],
+      "@types/*": [
+        "./lib/types/*"
+      ],
+      "@config/*": [
+        "./config/*"
+      ]
     },
     "resolveJsonModule": true,
     "declaration": true,
@@ -31,8 +45,25 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "include": [
+    "src/**/*",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tests"
+  ]
 }
