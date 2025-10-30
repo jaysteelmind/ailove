@@ -60,3 +60,18 @@ Thumbs.db
 # Production
 .vercel
 .netlify
+
+# Backup files
+*.backup
+*.backup2
+*.backup3
+.env.backup
+
+# Test files
+test-websocket.js
+create_test_data.mjs
+create_date.mjs
+complete_test_data.mjs
+
+# Build artifacts
+.next/
